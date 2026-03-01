@@ -1,0 +1,45 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-all-existing-service-items-on-the-services-page-with-a-new-catalog-remove-all-old-service-entries-and-add-the-following-services-with-their-sub-services-fridge-installation-repair-washing-machine-installation-repair-ac-air-conditioner-installation-repair-service-cleaning-geyser-installation-repair-induction-cooktop-repair-chimney-installation-repair-cleaning-liner-installation-repair-wiring-electrical-new-wiring-repair-microwave-oven-repair-aqua-guard-filter-installation-repair-all-service-and-sub-service-labels-should-be-displayed-in-both-bengali-and-english",
+      "featureTitle": "Replace all existing service items on the Services page with a new catalog. Remove all old service entries and add the following services with their sub-services: Fridge (Installation, Repair), Washing Machine (Installation, Repair), AC – Air Conditioner (Installation, Repair, Service/Cleaning), Geyser (Installation, Repair), Induction Cooktop (Repair), Chimney (Installation, Repair, Cleaning), Liner (Installation, Repair), Wiring/Electrical (New Wiring, Repair), Microwave Oven (Repair), Aqua Guard Filter (Installation, Repair). All service and sub-service labels should be displayed in both Bengali and English.",
+      "files": [
+        "frontend/src/pages/ServicesPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-the-entire-services-page-ui-and-remove-or-replace-any-unclear-garbled-or-hard-to-understand-text-strings-ensure-all-visible-labels-headings-descriptions-and-button-text-are-clean-grammatically-correct-english-and-bengali-where-the-app-uses-it-do-not-leave-any-placeholder-debug-or-machine-translated-nonsense-text",
+      "featureTitle": "Audit the entire Services page UI and remove or replace any unclear, garbled, or hard-to-understand text strings. Ensure all visible labels, headings, descriptions, and button text are clean, grammatically correct English (and Bengali where the app uses it). Do not leave any placeholder, debug, or machine-translated nonsense text.",
+      "files": [
+        "frontend/src/pages/ServicesPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Replace Services page with new service catalog and remove confusing UI text",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "summary": "Replace all existing service items on the Services page with a new catalog containing ten service categories (Fridge, Washing Machine, AC, Geyser, Induction Cooktop, Chimney, Liner, Wiring/Electrical, Microwave Oven, Aqua Guard Filter) with their sub-services. Display all service and sub-service labels in both Bengali and English.",
+      "acceptanceCriteria": [
+        "All previously displayed service items are removed from the Services page.",
+        "Ten new service categories are displayed: Fridge, Washing Machine, AC, Geyser, Induction Cooktop, Chimney, Liner, Wiring/Electrical, Microwave Oven, and Aqua Guard Filter.",
+        "Each service category shows its relevant sub-services (e.g., Installation, Repair, Cleaning where applicable).",
+        "Service and sub-service labels are readable in English (and Bengali where applicable).",
+        "No confusing, garbled, or placeholder text appears anywhere on the Services page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ServicesPage.tsx",
+          "operation": "modify",
+          "description": "Replace the current service listing implementation with a new hardcoded service catalog. Remove all backend data fetching logic and category-based rendering. Implement a static array containing ten service categories: Fridge (Installation, Repair), Washing Machine (Installation, Repair), AC – Air Conditioner (Installation, Repair, Service/Cleaning), Geyser (Installation, Repair), Induction Cooktop (Repair), Chimney (Installation, Repair, Cleaning), Liner (Installation, Repair), Wiring/Electrical (New Wiring, Repair), Microwave Oven (Repair), Aqua Guard Filter (Installation, Repair). Each service object should include both English and Bengali labels for the service name and all sub-services. Render the catalog using a grid or card layout showing each service category with its sub-services listed underneath. Ensure all text is clean, professional, and human-readable with no placeholder or garbled content."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Audit the entire Services page UI and remove or replace any unclear, garbled, or hard-to-understand text strings. Ensure all visible labels, headings, descriptions, and button text are clean, grammatically correct English (and Bengali where applicable).",
+      "acceptanceCriteria": [
+        "No unintelligible, garbled, or placeholder text is visible anywhere on the Services page.",
+        "All headings, labels, and descriptions are human-readable in English or Bengali.",
+        "Section titles and call-to-action buttons use clear, professional language."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ServicesPage.tsx",
+          "operation": "modify",
+          "description": "Review and clean up all text content on the Services page. Replace the page heading with a clear, professional title in English and Bengali (e.g., 'Our Services / আমাদের সেবা'). Remove any debug text, placeholder strings, or machine-translated content. Ensure section descriptions, if any, use grammatically correct English and proper Bengali. If there are call-to-action buttons or links, verify their labels are clear and actionable (e.g., 'Contact Us', 'Book Service'). Remove any confusing UI elements or text that does not serve a clear purpose for the user."
+        }
+      ]
+    }
+  ]
+}

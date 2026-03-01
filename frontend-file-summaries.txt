@@ -1,0 +1,15 @@
+{
+  "frontend/src/App.tsx": "Main application component managing page navigation, authentication state, profile setup modal, and theme provider integration.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for backend operations including user profile management, service categories, appliance services, contact inquiries, and photo uploads with proper state invalidation and BigInt conversion in query keys.",
+  "frontend/src/components/Header.tsx": "Responsive navigation header with Bengali text, logo, menu items, authentication controls, and mobile menu support.",
+  "frontend/src/components/Footer.tsx": "Footer component with Bengali content including about section (updated to reference পশ্চিমবঙ্গ instead of বাংলাদেশ), quick links, updated contact information (তারকেশ্বর address, 7551034609 mobile, sayanmondal7427@gmail.com and sayanmandal7551@gmail.com emails), and caffeine.ai attribution.",
+  "frontend/src/components/ProfileSetupModal.tsx": "Modal dialog for first-time user profile setup with Bengali labels, prefilled with mobile \"7551034609\" and email \"sayanmondal7427@gmail.com, sayanmandal7551@gmail.com\" as default values.",
+  "frontend/src/pages/HomePage.tsx": "Home page with hero section, service features, and call-to-action sections in Bengali language.",
+  "frontend/src/pages/ServicesPage.tsx": "Services page displaying a clean grid of 10 service categories (Fridge, Washing Machine, AC, Geyser, Induction Cooktop, Chimney, Liner, Wiring/Electrical, Microwave Oven, Aqua Guard Filter) with bilingual English/Bengali labels and sub-services, plus a contact call-to-action section. All confusing and garbled text has been removed.",
+  "frontend/src/pages/ContactPage.tsx": "Contact page with inquiry form and contact information cards displaying updated details (তারকেশ্বর address, 7551034609 mobile, sayanmondal7427@gmail.com and sayanmandal7551@gmail.com emails) in Bengali.",
+  "frontend/src/pages/LoginPage.tsx": "Login page with Internet Identity authentication integration and Bengali interface.",
+  "frontend/src/pages/RegisterPage.tsx": "Registration page using Internet Identity with Bengali text and informational content.",
+  "frontend/src/pages/ForgotPasswordPage.tsx": "Password recovery information page explaining Internet Identity recovery process in Bengali.",
+  "frontend/src/pages/DashboardPage.tsx": "Customer dashboard for viewing and editing profile with photo upload functionality using blob storage.",
+  "frontend/src/index.css": "Global styles with OKLCH color system customized for emerald/teal theme matching ServiceExpert branding."
+}

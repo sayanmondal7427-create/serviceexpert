@@ -1,0 +1,62 @@
+{
+  "kind": "build_request",
+  "title": "Replace Services page with new service catalog and remove confusing UI text",
+  "projectName": "ServiceExpert",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "text": "Replace all existing service items on the Services page with a new catalog. Remove all old service entries and add the following services with their sub-services: Fridge (Installation, Repair), Washing Machine (Installation, Repair), AC – Air Conditioner (Installation, Repair, Service/Cleaning), Geyser (Installation, Repair), Induction Cooktop (Repair), Chimney (Installation, Repair, Cleaning), Liner (Installation, Repair), Wiring/Electrical (New Wiring, Repair), Microwave Oven (Repair), Aqua Guard Filter (Installation, Repair). All service and sub-service labels should be displayed in both Bengali and English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-recent"
+        ],
+        "quotes": [
+          "Ad serving side change un unda standing words delete permanently",
+          "Service/Services page-এর পুরনো সব সার্ভিস লিস্ট ডিলিট করে নতুন সার্ভিস আইটেম যোগ করা (ফ্রিজ/ওয়াশিং মেশিন/এসি/গিজার/ইনডাকশন/চিমনি/লাইনার/ওয়্যারিং/মাইক্রোওভেন/একোয়া গার্ড ফিল্টার; ইনস্টলিং/রিপেয়ার ইত্যাদি সাব-সার্ভিসসহ)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All previously displayed service items are removed from the Services page.",
+        "Ten new service categories are displayed: Fridge, Washing Machine, AC, Geyser, Induction Cooktop, Chimney, Liner, Wiring/Electrical, Microwave Oven, and Aqua Guard Filter.",
+        "Each service category shows its relevant sub-services (e.g., Installation, Repair, Cleaning where applicable).",
+        "Service and sub-service labels are readable in English (and Bengali where applicable).",
+        "No confusing, garbled, or placeholder text appears anywhere on the Services page."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Audit the entire Services page UI and remove or replace any unclear, garbled, or hard-to-understand text strings. Ensure all visible labels, headings, descriptions, and button text are clean, grammatically correct English (and Bengali where the app uses it). Do not leave any placeholder, debug, or machine-translated nonsense text.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-recent"
+        ],
+        "quotes": [
+          "Ad serving side change un unda standing words delete permanently"
+        ]
+      },
+      "acceptanceCriteria": [
+        "No unintelligible, garbled, or placeholder text is visible anywhere on the Services page.",
+        "All headings, labels, and descriptions are human-readable in English or Bengali.",
+        "Section titles and call-to-action buttons use clear, professional language."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files under frontend/src/hooks/ or frontend/src/components/ui.",
+    "Do not change the backend data model or existing service category/appliance service records in the canister — only update the frontend display.",
+    "Preserve all existing routing, authentication, and layout structure."
+  ],
+  "nonGoals": [
+    "Adding backend endpoints or modifying Motoko actor for the new service list.",
+    "Implementing booking or scheduling functionality for the new services.",
+    "Changing the Home, Contact, Dashboard, or any other page.",
+    "Modifying authentication or access control logic."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

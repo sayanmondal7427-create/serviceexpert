@@ -1,0 +1,51 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-03-01T02:49:50.602Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 2,
+    "implemented": 2,
+    "items": [
+      {
+        "id": "REQ-2",
+        "summary": "Replace all existing service items on the Services page with a new catalog. Remove all old service entries and add the following services with their sub-services: Fridge (Installation, Repair), Washing Machine (Installation, Repair), AC – Air Conditioner (Installation, Repair, Service/Cleaning), Geyser (Installation, Repair), Induction Cooktop (Repair), Chimney (Installation, Repair, Cleaning), Liner (Installation, Repair), Wiring/Electrical (New Wiring, Repair), Microwave Oven (Repair), Aqua Guard Filter (Installation, Repair). All service and sub-service labels should be displayed in both Bengali and English.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/ServicesPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/ServicesPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Audit the entire Services page UI and remove or replace any unclear, garbled, or hard-to-understand text strings. Ensure all visible labels, headings, descriptions, and button text are clean, grammatically correct English (and Bengali where the app uses it). Do not leave any placeholder, debug, or machine-translated nonsense text.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/ServicesPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/ServicesPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "build-template/README.md",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/config.ts",
+    "frontend/src/pages/ServicesPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

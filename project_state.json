@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 9,
+  "summary": "ServiceExpert is a Bengali-language home appliance repair service web app built with a React + Tailwind frontend and a Motoko canister backend on the Internet Computer. Users authenticate via Internet Identity, create/manage a personal profile (including optional profile photo stored as an IC external blob), browse service categories and appliance services (public read), and submit contact inquiries. The backend enforces role-based access control (admin/user/guest) with an admin bootstrap token and provides admin-only endpoints for service catalog management and viewing contact inquiries, plus canister blob-storage maintenance utilities (gateway authorization sync, dead-blob GC, and cashier cycle refill).",
+  "architectural_notes": [
+    "Frontend uses React with a simple internal page state (no router) for navigation between Home/Services/Contact/Auth/Dashboard views.",
+    "Authentication is handled via an InternetIdentityProvider (React Context) wrapping @dfinity/auth-client; identities persist across reloads and support long-lived delegations (30 days TTL).",
+    "Backend actor access is wrapped in a custom useActor hook that creates an anonymous actor when unauthenticated and an authenticated actor when logged in; it calls _initializeAccessControlWithSecret on actor creation and then invalidates/refetches React Query caches when the actor changes.",
+    "Data fetching/mutations use @tanstack/react-query with explicit query keys and cache invalidation (e.g., currentUserProfile invalidated on profile save/photo upload).",
+    "Motoko backend composes functionality via mixins: MixinAuthorization for access control endpoints and blob-storage/Mixin for IC storage maintenance methods.",
+    "Authorization model: role-based access control stored in a Map keyed by Principal; first user to provide the correct secret token becomes admin; all other authenticated principals default to user; anonymous principals are guests.",
+    "Backend stores data in in-canister Maps (user profiles, categories, services, contact inquiries) with incrementing Nat IDs for catalog and inquiry entries.",
+    "Sensitive admin bootstrap secret is read from the URL hash fragment on the frontend and persisted in sessionStorage, then cleared from the URL to reduce leakage risk.",
+    "Project now includes a reusable build template/scaffold (build-template/) for deploying a React + Motoko canister app, including Dockerfile, deploy.sh, icp.yaml, and per-canister YAML configs.",
+    "Build/template toolchain uses a pnpm workspace and includes scripts for pruning unused images and resizing images as part of the frontend asset pipeline."
+  ],
+  "known_issues": [
+    "Possible environment variable typo in backend/blob-storage/Storage.mo: 'CAFFFEINE_STORAGE_CASHIER_PRINCIPAL' (triple 'F') may be unintended and could cause runtime traps if deployments use the expected spelling.",
+    "AccessControl.getUserRole traps with 'User is not registered' for authenticated principals not yet initialized; frontend relies on _initializeAccessControlWithSecret being called during actor creation to avoid this, but any bypass/mis-ordering could cause traps.",
+    "ProfileSetupModal sets the email input type to 'email' but defaults to a comma-separated string ('sayanmondal7427@gmail.com, sayanmandal7551@gmail.com'), which is invalid for a single email field and may block form submission in some browsers.",
+    "Contact inquiries and service catalogs are stored unbounded in canister memory (no pagination, archival, or limits), which may become a scalability issue over time.",
+    "Blob-storage certificate creation method (_caffeineStorageCreateCertificate) currently returns a stub-like response (method/blob_hash) and does not generate/verifiably sign a certificate in the shown code."
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "IF-1",
+      "title": "Internet Identity authentication (login/logout) with persistent identity",
+      "synonyms": [
+        "II login",
+        "AuthClient integration"
+      ],
+      "description": "Users can authenticate using Internet Identity via @dfinity/auth-client. The app loads any existing authenticated session on startup, provides login and logout actions, exposes login status flags, and supports long-lived delegations (30 days TTL).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-2",
+      "title": "Backend actor creation with identity and automatic access-control initialization",
+      "synonyms": [
+        "Authenticated actor",
+        "useActor"
+      ],
+      "description": "Frontend dynamically creates an anonymous backend actor when unauthenticated and an identity-bound actor when authenticated. On authenticated actor creation it calls _initializeAccessControlWithSecret using a secret token sourced from the URL hash/session, then invalidates and refetches dependent React Query caches.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-3",
+      "title": "Role-based access control with admin bootstrap token",
+      "synonyms": [
+        "RBAC",
+        "AccessControl"
+      ],
+      "description": "Motoko backend implements admin/user/guest roles. First principal to initialize with a matching admin token becomes admin; all other authenticated callers become users; anonymous callers are guests. Includes endpoints to query caller role, check admin, and admin-only role assignment.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-4",
+      "title": "User profile CRUD for the logged-in caller",
+      "synonyms": [
+        "Profile management",
+        "Customer profile"
+      ],
+      "description": "Authenticated users (role: user or admin) can save and retrieve their own profile (name, mobile, email, optional profilePhoto). Backend enforces role checks; frontend provides React Query hooks to fetch and mutate the caller profile with cache invalidation.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-5",
+      "title": "First-time profile setup modal",
+      "synonyms": [
+        "Onboarding profile setup"
+      ],
+      "description": "When a user is authenticated and no profile exists, the app shows a blocking modal prompting the user to create a profile, then persists it via saveCallerUserProfile and shows toast feedback.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-6",
+      "title": "Customer dashboard to view/edit profile and upload avatar photo",
+      "synonyms": [
+        "DashboardPage",
+        "Profile editor"
+      ],
+      "description": "Authenticated users can view their profile, toggle edit mode, save updates, and upload a profile photo (image validation, size limit, local preview). Photo blobs are uploaded as ExternalBlob and saved into the profile; avatar displays either uploaded blob direct URL or a default image.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-7",
+      "title": "Service categories and appliance services (public read, admin write)",
+      "synonyms": [
+        "Service catalog",
+        "Categories and services"
+      ],
+      "description": "Backend supports admin-only creation/initialization of service categories and appliance services (single and bulk add). Public query endpoints allow anyone to list all categories, list all services, and filter services by category. Frontend provides React Query hooks for these catalog reads.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-8",
+      "title": "Contact inquiry submission (public) with admin-only viewing",
+      "synonyms": [
+        "Contact form",
+        "Support messages"
+      ],
+      "description": "Frontend contact page submits name/email/message via a backend mutation with client-side required-field checks and toast notifications. Backend stores inquiries and exposes an admin-only query to retrieve all inquiries.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-9",
+      "title": "Static marketing pages and Bengali UI layout",
+      "synonyms": [
+        "Landing page",
+        "Services page",
+        "Header/Footer"
+      ],
+      "description": "Frontend includes Bengali-language Home, Services, Contact, Login, Register, and Forgot Password informational pages. It provides a responsive header with mobile menu and auth-aware actions, and a footer with contact details and attribution. Styling uses Tailwind with a customized emerald/teal theme and shadcn-like UI components.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-10",
+      "title": "Secret token handling via URL hash and sessionStorage",
+      "synonyms": [
+        "Admin token capture",
+        "URL param utilities"
+      ],
+      "description": "Utility functions extract sensitive parameters from the URL hash, persist them to sessionStorage, and remove them from the URL using history.replaceState to reduce exposure in browser history and referrers.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-11",
+      "title": "Blob storage maintenance endpoints (gateway authorization, dead blob GC, cashier refill)",
+      "synonyms": [
+        "Caffeine storage mixin",
+        "Blob GC tools"
+      ],
+      "description": "Backend includes blob-storage mixin endpoints to update authorized storage gateway principals from a configured cashier canister, list dead blobs (authorized callers only), confirm deletion and trigger Motoko GC, check if a blob is live, and allow a cashier principal to refill cycles to the canister.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-services-page-to-include-an-aqua-guard-filter-offering-with-sub-services-installation-and-repair-under-the-existing-water-purifier-section",
+      "title": "Update the Services page to include an \"Aqua Guard Filter\" offering with sub-services \"Installation\" and \"Repair\" under the existing \"Water purifier\" section.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-all-existing-service-items-on-the-services-page-with-a-new-catalog-remove-all-old-service-entries-and-add-the-following-services-with-their-sub-services-fridge-installation-repair-washing-machine-installation-repair-ac-air-conditioner-installation-repair-service-cleaning-geyser-installation-repair-induction-cooktop-repair-chimney-installation-repair-cleaning-liner-installation-repair-wiring-electrical-new-wiring-repair-microwave-oven-repair-aqua-guard-filter-installation-repair-all-service-and-sub-service-labels-should-be-displayed-in-both-bengali-and-english",
+      "title": "Replace all existing service items on the Services page with a new catalog. Remove all old service entries and add the following services with their sub-services: Fridge (Installation, Repair), Washing Machine (Installation, Repair), AC – Air Conditioner (Installation, Repair, Service/Cleaning), Geyser (Installation, Repair), Induction Cooktop (Repair), Chimney (Installation, Repair, Cleaning), Liner (Installation, Repair), Wiring/Electrical (New Wiring, Repair), Microwave Oven (Repair), Aqua Guard Filter (Installation, Repair). All service and sub-service labels should be displayed in both Bengali and English.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-audit-the-entire-services-page-ui-and-remove-or-replace-any-unclear-garbled-or-hard-to-understand-text-strings-ensure-all-visible-labels-headings-descriptions-and-button-text-are-clean-grammatically-correct-english-and-bengali-where-the-app-uses-it-do-not-leave-any-placeholder-debug-or-machine-translated-nonsense-text",
+      "title": "Audit the entire Services page UI and remove or replace any unclear, garbled, or hard-to-understand text strings. Ensure all visible labels, headings, descriptions, and button text are clean, grammatically correct English (and Bengali where the app uses it). Do not leave any placeholder, debug, or machine-translated nonsense text.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Service/Services page-এর পুরনো সব সার্ভিস লিস্ট ডিলিট করে নতুন সার্ভিস আইটেম যোগ করা (ফ্রিজ/ওয়াশিং মেশিন/এসি/গিজার/ইনডাকশন/চিমনি/লাইনার/ওয়্যারিং/মাইক্রোওভেন/একোয়া গার্ড ফিল্টার; ইনস্টলিং/রিপেয়ার ইত্যাদি সাব-সার্ভিসসহ)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "ServiceExpert",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
